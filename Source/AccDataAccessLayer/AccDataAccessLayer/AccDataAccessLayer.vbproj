@@ -55,7 +55,7 @@
     </Reference>
     <Reference Include="MySql.Data, Version=6.7.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 6.7.8\Assemblies\v2.0\MySql.Data.dll</HintPath>
+      <HintPath>..\..\ExternalReferencedLibraries\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
