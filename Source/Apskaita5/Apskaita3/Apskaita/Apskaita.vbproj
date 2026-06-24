@@ -601,7 +601,9 @@
     <Content Include="FFData\13-SD-v02.ffdata">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icons\zalsva.ico" />
+    <Content Include="Icons\zalsva.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icons\zalsva_maza.ico" />
     <Content Include="LastUpdateA5.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
