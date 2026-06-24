@@ -432,8 +432,8 @@ Namespace General
             result._DocTypeHumanReadable = Utilities.ConvertLocalizedName(result._DocType)
             result._Person = _Person
 
-            _DebetList = BookEntryList.NewBookEntryList(BookEntryType.Debetas)
-            _CreditList = BookEntryList.NewBookEntryList(BookEntryType.Kreditas)
+            result._DebetList = BookEntryList.NewBookEntryList(BookEntryType.Debetas)
+            result._CreditList = BookEntryList.NewBookEntryList(BookEntryType.Kreditas)
 
             For Each entry As BookEntry In _CreditList
                 result._CreditList.Add(entry.GetBookEntryCopy())

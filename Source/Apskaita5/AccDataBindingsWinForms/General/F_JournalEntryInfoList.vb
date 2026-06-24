@@ -220,6 +220,11 @@ Friend Class F_JournalEntryInfoList
 
         ElseIf action.Trim.ToLower = "ShowItemRelations".ToLower Then
             Return True
+
+        ElseIf action.Trim.ToLower = "CopyJournalEntry".ToLower Then
+            Return item.DocType = DocumentType.None OrElse
+                   item.DocType = DocumentType.InvoiceMade OrElse
+                   item.DocType = DocumentType.InvoiceReceived
         End If
 
         Return False
@@ -309,15 +314,35 @@ Friend Class F_JournalEntryInfoList
     End Sub
 
     Private Sub CopyJournalEntry(ByVal item As JournalEntryInfo)
-        If item Is Nothing OrElse Not item.Id > 0 OrElse item.DocType <> DocumentType.None Then Exit Sub
-        'General.JournalEntry.GetJournalEntry(item.Id)
-        _QueryManager.InvokeQuery(Of General.JournalEntry)(Nothing, "GetJournalEntry", True, _
-            AddressOf OnJournalEntryFetched, item.Id)
+        If item Is Nothing OrElse Not item.Id > 0 Then Exit Sub
+        If item.DocType = DocumentType.None Then
+            _QueryManager.InvokeQuery(Of General.JournalEntry)(Nothing, "GetJournalEntry", True,
+                AddressOf OnJournalEntryFetched, item.Id)
+        ElseIf item.DocType = DocumentType.InvoiceMade Then
+            _QueryManager.InvokeQuery(Of InvoiceMade)(Nothing, "GetInvoiceMade", True,
+                AddressOf OnInvoiceFetched, item.Id)
+        ElseIf item.DocType = DocumentType.InvoiceReceived Then
+            _QueryManager.InvokeQuery(Of InvoiceReceived)(Nothing, "GetInvoiceReceived", True,
+                AddressOf OnInvoiceFetched, item.Id)
+        End If
     End Sub
 
     Private Sub OnJournalEntryFetched(ByVal result As Object, ByVal exceptionHandled As Boolean)
         If result Is Nothing Then Exit Sub
         OpenObjectEditForm(DirectCast(result, General.JournalEntry).GetJournalEntryCopy())
+    End Sub
+
+    Private Sub OnInvoiceFetched(ByVal result As Object, ByVal exceptionHandled As Boolean)
+        If result Is Nothing Then Exit Sub
+        Try
+            If TypeOf result Is InvoiceMade Then
+                OpenObjectEditForm(DirectCast(result, InvoiceMade).GetInvoiceMadeCopy())
+            ElseIf TypeOf result Is InvoiceReceived Then
+                OpenObjectEditForm(DirectCast(result, InvoiceReceived).GetInvoiceReceivedCopy())
+            End If
+        Catch ex As Exception
+            ShowError(ex, result)
+        End Try
     End Sub
 
     Private Sub ShowItemRelations(ByVal item As JournalEntryInfo)
