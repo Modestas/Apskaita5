@@ -34,7 +34,7 @@ After InvoiceInfo builds successfully, open and build the main solution:
 Source\Apskaita5\Apskaita5.sln
 ```
 
-Build configuration: **Release | Any CPU** (or `Release | x86` for 32-bit)
+Build configuration: **Release | x86** (the installer scripts expect the `x86\Release` output path)
 
 The solution includes the following projects:
 
@@ -52,6 +52,33 @@ The solution includes the following projects:
 | ApskaitaRemotingServer | Remoting server |
 | AccWebService | Web service layer |
 | Apskaita | Main WinForms application |
+
+## Building the Installer
+
+### 1. Install Inno Setup
+
+Download and install Inno Setup 6:
+
+**Download:** https://github.com/jrsoftware/issrc/releases/download/is-6_7_3/innosetup-6.7.3.exe
+
+### 2. Compile the installer script
+
+Two installer scripts are provided in `Source\`:
+
+| Script | Output file | Purpose |
+|---|---|---|
+| `Apskaita5.iss` | `InnoOutput\Apskaita5_setup_full.exe` | Full installer (first-time install) |
+| `Apskaita5_update.iss` | `InnoOutput\Apskaita5_setup.exe` | Update/patch installer |
+
+Open the desired `.iss` file in the Inno Setup IDE and press **Build → Compile** (or run from the command line):
+
+```
+iscc Source\Apskaita5.iss
+```
+
+The compiled installer will appear in the `InnoOutput\` folder at the repository root.
+
+> The installer scripts expect the `Release|x86` build output from step 3 above, so make sure `Apskaita5.sln` was built with that configuration before compiling the installer.
 
 ## External Libraries
 
