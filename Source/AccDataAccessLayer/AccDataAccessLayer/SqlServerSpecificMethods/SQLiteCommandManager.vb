@@ -955,6 +955,8 @@ Namespace SqlServerSpecificMethods
                 Dim filePath As String = IO.Path.Combine(IO.Path.Combine(AppPath(), "Data"),
                     TargetIdentity.Database & Name_FileServerDatabaseFilesExtension)
 
+                IO.Directory.CreateDirectory(IO.Path.GetDirectoryName(filePath))
+
                 If String.IsNullOrEmpty(TargetIdentity.Password.Trim) Then
                     Return String.Format(ConnString_WithoutPassword, filePath)
                 Else
